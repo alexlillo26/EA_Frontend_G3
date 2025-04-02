@@ -1,15 +1,15 @@
-
-@if(loggedin){
+<div *ngIf="loggedin; else notLoggedIn">
   <div>
-    <h1>Bienvenido </h1>
+    <h1>Bienvenido</h1>
     <button routerLink="/users" class="btn btn-primary">Usuarios</button>
     <button routerLink="/gyms" class="btn btn-primary">Gimnasios</button>
     <button routerLink="/combats" class="btn btn-primary">Combates</button>
     <button (click)="logout()" class="btn btn-secondary">Cerrar sesión</button>
   </div>
-}
-@else {
+</div>
+
+<ng-template #notLoggedIn>
   <h1>Bienvenido, introduce tus datos</h1>
-}
+</ng-template>
 
 <router-outlet></router-outlet>
