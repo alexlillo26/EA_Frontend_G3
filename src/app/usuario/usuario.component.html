@@ -146,21 +146,49 @@
   </dialog>
   <dialog id="ErrorUsuarioMostrado" closedby="any">
     <h2>¡Cuidado!</h2>
-    <p>Vaya... Parece que ha habido un error al motrar el usuario</p>
+    <p>Vaya... Parece que ha habido un error al motrar el usuario.</p>
     <form method="dialog">
       <button type="submit" class="btn-close">Cerrar</button>
     </form>
   </dialog>
   <dialog id="FaltaDeDatos" closedby="any">
     <h2>¡No tan rápido!</h2>
-    <p>Rellena todos los datos para poder crear el usuario</p>
+    <p>Rellena todos los datos para poder crear el usuario.</p>
     <form method="dialog">
       <button type="submit" class="btn-close">Cerrar</button>
     </form>
   </dialog>
   <dialog id="FechaInvalida" closedby="any">
     <h2>Hay un problema</h2>
-    <p>No puedes introducir la fecha actual o una futura</p>
+    <p>No puedes introducir la fecha actual o una futura fecha.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="PasswordInvalido" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>La contraseña debe tener mínimo 8 caracteres.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="EmailExistente" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El email de este usuario ya está registrado.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="EmailInvalido" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El email de este usuario tiene elementos incorrectos.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="NombreExistente" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El nombre de este usuario ya existe.</p>
     <form method="dialog">
       <button type="submit" class="btn-close">Cerrar</button>
     </form>

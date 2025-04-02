@@ -53,8 +53,37 @@ export class UserComponent implements OnInit {
         dialog.showModal();
       }
       return;
-    } else if (this.isBirthDateInvalid()) {
+    } 
+    if (this.isBirthDateInvalid()) {
       const dialog: HTMLDialogElement | null = document.querySelector('#FechaInvalida');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (!this.isEmailValid(this.newUser.email)) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#EmailInvalido');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (this.users.some(u => u.email === this.newUser.email)) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#EmailExistente');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (this.newUser.password.length < 8) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#PasswordInvalido');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (this.users.some(u => u.name === this.newUser.name)) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#NombreExistente');
       if (dialog) {
         dialog.showModal();
       }
@@ -191,5 +220,10 @@ export class UserComponent implements OnInit {
     return (
       birthDate.getTime() === new Date('1970-01-01').getTime() ||
       birthDate >= new Date(today.toISOString().split('T')[0]));
+  }
+
+  isEmailValid(email: string): boolean {
+    const emailRegex = /^[^\s@]+@(gmail|yahoo|hotmail|outlook|icloud|protonmail)\.(com|es|org|net|edu|gov|info|io|co|us|uk)$/i;
+    return emailRegex.test(email);
   }
 }

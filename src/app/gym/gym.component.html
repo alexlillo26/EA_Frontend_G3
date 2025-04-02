@@ -19,7 +19,7 @@
       <input [(ngModel)]="selectedGym.password" name="password" class="form-control" type="password" placeholder="Contraseña" required />
     </div>
     <div class="form-group">
-      <input [(ngModel)]="selectedGym.phone" name="phone" class="form-control" type="number" placeholder="Teléfono" required />
+      <input [(ngModel)]="selectedGym.phone" name="phone" class="form-control" type="tel" placeholder="Teléfono" required />
     </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-success">Actualizar</button>
@@ -45,7 +45,7 @@
         <input [(ngModel)]="newGym.password" name="password" class="form-control" type="password" placeholder="Contraseña" required />
       </div>
       <div class="form-group">
-        <input [(ngModel)]="newGym.phone" name="phone" class="form-control" type="number" placeholder="Teléfono" required />
+        <input [(ngModel)]="newGym.phone" name="phone" class="form-control" type="tel" placeholder="Teléfono" required />
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Crear</button>
@@ -103,6 +103,83 @@
   <dialog id="GimnasioMostrado" closedby="any">
     <h2>Gimnasio visible</h2>
     <p>El gimnasio ahora es visible.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorGimnasioCreado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al crear el gimnasio.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorGimnasioActualizado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al editar el gimnasio.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorGimnasioOcultado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al ocultar el gimnasio.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorGimnasioMostrado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al mostrar el gimnasio.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="FaltaDeDatos" closedby="any">
+    <h2>¡No tan rápido!</h2>
+    <p>Rellena todos los datos para poder crear el gimnasio.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="PrecioInvalido" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El precio no puede ser inferior o igual a 0.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="NombreExistente" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El nombre de este gimnasio ya está en uso.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="EmailExistente" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El email de este gimnasio ya está en uso.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="LugarExistente" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>La dirección de este gimnasio ya está registrada.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="TelefonoInvalido" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>El teléfono debe tener 9 dígitos.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="PasswordInvalido" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>La contraseña debe tener 8 o más caracteres.</p>
     <form method="dialog">
       <button type="submit" class="btn-close">Cerrar</button>
     </form>

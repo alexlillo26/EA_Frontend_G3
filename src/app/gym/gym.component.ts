@@ -47,19 +47,53 @@ export class GymComponent implements OnInit {
 
   // Crear un nuevo gimnasio
   createGym(): void {
+    if (!this.newGym.name || !this.newGym.place || !this.newGym.price || !this.newGym.password || !this.newGym.email || !this.newGym.phone) {
+      this.showModal('#FaltaDeDatos');
+      return;
+    }
+    if (this.newGym.price <= 0) {
+      this.showModal('#PrecioInvalido');
+      return;
+    }
+    if (this.gyms.some(g => g.name === this.newGym.name)) {
+      this.showModal('#NombreExistente');
+      return;
+    }
+    if (this.gyms.some(g => g.email === this.newGym.email)) {
+      this.showModal('#EmailExistente');
+      return;
+    }
+    if (this.gyms.some(g => g.place === this.newGym.place)) {
+      this.showModal('#LugarExistente');
+      return;
+    }
+    if (this.newGym.phone.length != 9) {
+      this.showModal('#TelefonoInvalido');
+      return;
+    }
+    if (this.newGym.password.length < 8) {
+      this.showModal('#PasswordInvalido');
+      return;
+    }
     this.gymService.createGym(this.newGym).subscribe(
       (data) => {
+        console.log('Gimnasio creado:', data);
         this.gyms.push(data);
-        const dialog: HTMLDialogElement | null = document.querySelector('#GimnasioCreado');
-        if (dialog){
-          dialog.showModal();
-        }
+        this.showModal('#GimnasioCreado');
         this.newGym = { _id: '', name: '', place: '', price: 0, password: '', email: '', phone: '' }; // Resetear el formulario
       },
       (error) => {
         console.error('Error al crear gimnasio:', error);
+        this.showModal('#ErrorGimnasioCreado');
       }
     );
+  }
+
+  private showModal(modalId: string): void{
+    const dialog: HTMLDialogElement | null = document.querySelector(modalId);
+    if (dialog){
+      dialog.showModal();
+    }
   }
 
   // Actualizar un gimnasio
@@ -80,6 +114,10 @@ export class GymComponent implements OnInit {
         },
         (error) => {
           console.error('Error al actualizar gimnasio:', error);
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorGimnasioActualizado');
+          if (dialog){
+            dialog.showModal();
+          }
         }
       );
     }
@@ -110,7 +148,18 @@ export class GymComponent implements OnInit {
       },
       (error) => {
         console.error('Error al ocultar/mostrar gimnasio:', error);
-        alert('Error al ocultar/mostrar gimnasio: ' + JSON.stringify(error));
+        if (isHidden) {
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorGimnasioOcultado');
+          if (dialog){
+            dialog.showModal();
+          }
+        }
+        else {
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorGimnasioMostrado');
+          if (dialog){
+            dialog.showModal();
+          }
+        }
       }
     );
   }
