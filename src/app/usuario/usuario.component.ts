@@ -16,7 +16,7 @@ import { CreateUserDTO } from '../models/user.model';
 })
 export class UserComponent implements OnInit {
   users: User[] = [];
-  newUser: User = { _id: '', name: '', email: '', birthDate: new Date(), isAdmin: false, isHidden: false, password: '' };
+  newUser: User = { _id: '', name: '', email: '', birthDate: undefined, isAdmin: false, isHidden: false, password: '' };
   selectedUser: User | null = null;
   page: number = 1;
   pageSize: number = 10;
@@ -48,9 +48,19 @@ export class UserComponent implements OnInit {
 
   createUser(): void {
     if (!this.newUser.name || !this.newUser.email || !this.newUser.birthDate || !this.newUser.password) {
-      alert('Por favor, complete todos los campos requeridos');
+      const dialog: HTMLDialogElement | null = document.querySelector('#FaltaDeDatos');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    } else if (this.isBirthDateInvalid()) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#FechaInvalida');
+      if (dialog) {
+        dialog.showModal();
+      }
       return;
     }
+      
 
     // Crear un objeto del tipo CreateUserDTO
     const userToCreate: CreateUserDTO = {
@@ -67,7 +77,7 @@ export class UserComponent implements OnInit {
     this.userService.createUser(userToCreate).subscribe(
       (data) => {
         this.users.push(data);
-        this.newUser = { _id: '', name: '', email: '', birthDate: new Date(), isAdmin: false, isHidden: false, password: '' }; // Resetear el formulario
+        this.newUser = { _id: '', name: '', email: '', birthDate: undefined, isAdmin: false, isHidden: false, password: '' }; // Resetear el formulario
         const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioCreado');
         if (dialog) {
           dialog.showModal();
@@ -75,7 +85,10 @@ export class UserComponent implements OnInit {
       },
       (error) => {
         console.error('Error al crear usuario:', error);
-        alert('Error al crear usuario: ' + (error.error?.message || 'Error desconocido'));
+        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorUsuarioCreado');
+        if (dialog) {
+          dialog.showModal();
+        }
       }
     );
   }
@@ -101,7 +114,10 @@ export class UserComponent implements OnInit {
         },
         (error) => {
           console.error('Error al actualizar usuario:', error);
-          alert('Error al actualizar usuario:' + JSON.stringify(error));
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorUsuarioActualizado');
+          if (dialog) {
+            dialog.showModal();
+          }
         }
       );
     }
@@ -128,7 +144,18 @@ export class UserComponent implements OnInit {
       },
       (error) => {
         console.error('Error al ocultar/mostrar usuario:', error);
-        alert('Error al ocultar/mostrar usuario: ' + JSON.stringify(error));
+        if (isHidden) {
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorUsuarioOcultado');
+          if (dialog) {
+            dialog.showModal();
+          }
+        }
+        else {
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorUsuarioMostrado');
+          if (dialog) {
+            dialog.showModal();
+          }
+        }
       }
     );
   }
@@ -150,5 +177,19 @@ export class UserComponent implements OnInit {
       this.page++;
       this.getUsers();
     }
+  }
+
+  isBirthDateInvalid(): boolean {
+    if (!this.newUser.birthDate) {
+      return true; 
+    }
+
+    const today = new Date();
+    const birthDate = new Date(this.newUser.birthDate);
+
+    // Verificar si la fecha es la actual o una fecha futura
+    return (
+      birthDate.getTime() === new Date('1970-01-01').getTime() ||
+      birthDate >= new Date(today.toISOString().split('T')[0]));
   }
 }

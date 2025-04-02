@@ -45,9 +45,9 @@
             placeholder="Correo Electrónico" required />
         </div>
         <div class="form-group">
-          <label for="newBirthDate">Fecha de nacimiento</label>
+          <label for="newBirthDate">Fecha de Nacimiento</label>
           <input [(ngModel)]="newUser.birthDate" name="birthDate" id="newBirthDate" type="date" class="form-control"
-            placeholder="Fecha de nacimiento" required />
+            placeholder="Fecha de Nacimiento" required />
         </div>
         <div class="form-group">
           <label for="newIsAdmin">Administrador</label>
@@ -119,6 +119,48 @@
   <dialog id="UsuarioMostrado" closedby="any">
     <h2>Usuario visible</h2>
     <p>El usuario ahora es visible.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorUsuarioCreado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al crear el usuario.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorUsuarioActualizado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al editar el usuario.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorUsuarioOcultado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al ocultar el usuario.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorUsuarioMostrado" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al motrar el usuario</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="FaltaDeDatos" closedby="any">
+    <h2>¡No tan rápido!</h2>
+    <p>Rellena todos los datos para poder crear el usuario</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="FechaInvalida" closedby="any">
+    <h2>Hay un problema</h2>
+    <p>No puedes introducir la fecha actual o una futura</p>
     <form method="dialog">
       <button type="submit" class="btn-close">Cerrar</button>
     </form>
