@@ -68,7 +68,10 @@ export class UserComponent implements OnInit {
       (data) => {
         this.users.push(data);
         this.newUser = { _id: '', name: '', email: '', birthDate: new Date(), isAdmin: false, isHidden: false, password: '' }; // Resetear el formulario
-        alert('Usuario creado exitosamente');
+        const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioCreado');
+        if (dialog) {
+          dialog.showModal();
+        }
       },
       (error) => {
         console.error('Error al crear usuario:', error);
@@ -89,7 +92,10 @@ export class UserComponent implements OnInit {
           const index = this.users.findIndex((u) => u._id === data._id);
           if (index !== -1) {
             this.users[index] = data;
-            alert('Usuario actualizado exitosamente');
+            const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioActualizado');
+            if (dialog) {
+              dialog.showModal();
+            }
           }
           this.selectedUser = null; // Limpiar selección
         },
@@ -107,7 +113,18 @@ export class UserComponent implements OnInit {
       () => {
         // Refresh the user list after successfully hiding/showing the user
         this.getUsers();
-        alert(`Usuario ${isHidden ? 'ocultado' : 'mostrado'} exitosamente`);
+        if (isHidden) {
+          const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioOcultado');
+          if (dialog) {
+            dialog.showModal();
+          }
+        }
+        else {
+          const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioMostrado');
+          if (dialog) {
+            dialog.showModal();
+          }
+        }
       },
       (error) => {
         console.error('Error al ocultar/mostrar usuario:', error);

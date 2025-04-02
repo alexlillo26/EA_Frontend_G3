@@ -69,10 +69,16 @@ export class RegisterComponent {
       next: () => {
         // Activa el evento de finalización del registro
         this.registreComplet.emit();
-        alert('Registro exitoso');
         // Restablecer formularios
         this.formularioRegistre.reset();
-        this.router.navigate(['/login']);
+
+        const dialog: HTMLDialogElement | null = document.querySelector('#RegistroExitoso');
+        if (dialog){
+          dialog.showModal();
+          dialog.addEventListener('close', () => {
+            this.router.navigate(['/login']);
+          });
+        }
       },
       error: (err) => {
         console.error('Error al registrar:', err);

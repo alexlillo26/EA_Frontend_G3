@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { tap, catchError } from 'rxjs/operators';
-
+import { User } from '../models/user.model'; 
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +17,8 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(this.apiUrl, credentials).pipe(
+  login(credentials: { email: string; password: string }): Observable<User> {
+    return this.http.post<User>(this.apiUrl, credentials).pipe(
       tap((response: any) => {
         console.log('Respuesta del backend:', response); // Depuración
 

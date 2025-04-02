@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, EventEmitter, Output } from '@angular/core';
+import { Component, inject, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
+import { AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +16,7 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true
 })
 export class LoginComponent implements OnInit {
+  user: User = { _id: '', name: '', email: '', birthDate: new Date(), isAdmin: false, isHidden: false, password: '' };
   formularioLogin: FormGroup;
   authService = inject(AuthService);
   private router = inject(Router);
@@ -47,9 +51,27 @@ export class LoginComponent implements OnInit {
     const loginData = this.formularioLogin.value;
   
     this.authService.login(loginData).subscribe({
-      next: () => {
-        console.log('Login exitoso');
-        this.errorMessage = null; // Limpiar el mensaje de error en caso de éxito
+      next: (user: User) => {
+        this.loggedin.emit();
+        this.formularioLogin.reset();
+        this.user = user;
+        setTimeout(() => {
+        const dialog: HTMLDialogElement | null = document.querySelector('#LoginExitoso');
+        if (dialog){
+          console.log('Dialogo encontrado, mostrando...');
+          dialog.showModal();
+          console.log('Dialogo mostrado: ', dialog.hasAttribute('open'));
+          dialog.addEventListener('close', () => {
+            if (this.user.isAdmin) {
+              this.router.navigate(['/users']); // Redirigir a la gestión de usuarios
+            }
+            else {
+              this.router.navigate(['/welcome']); // Redirigir a la página de bienvenida
+            }
+            console.log('El diálogo se cerró automáticamente');
+          });
+        } else {
+          console.error('No se encontró el diálogo con el ID "LoginExitoso"');} }, 0);
       },
       error: (error) => {
         console.error('Error en el login:', error);
