@@ -6,6 +6,10 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { AbstractControl } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
+import { AsyncValidatorFn } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -27,8 +31,8 @@ export class RegisterComponent {
   ) {
     this.formularioRegistre = this.form.group({
       name: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      birthDate: ['', [Validators.required, this.birthDateValidator]],
+      email: ['', [Validators.required, Validators.email],],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
     }, {validator: this.passwordMatchValidator});
@@ -58,6 +62,10 @@ export class RegisterComponent {
         const control = this.formularioRegistre.get(key);
         control?.markAsTouched();
       });
+      const dialog: HTMLDialogElement | null = document.querySelector('#FaltaDeDatos');
+      if (dialog) {
+        dialog.showModal();
+      }
       return;
     }
 
@@ -82,7 +90,38 @@ export class RegisterComponent {
       },
       error: (err) => {
         console.error('Error al registrar:', err);
+        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorRegistro');
+        if (dialog){
+          dialog.showModal();
+        }
       }
     });
+  }
+
+  private birthDateValidator(control: AbstractControl): ValidationErrors | null {
+    const today = new Date();
+    const birthDate = new Date(control.value);
+  
+    // Verificar si la fecha es la actual o posterior
+    if (birthDate >= new Date(today.toISOString().split('T')[0])) {
+      return { invalidBirthDate: true };
+    }
+    return null;
+  }
+
+  private emailAlreadyExistsValidator(users: string[]): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return of(users.includes(control.value)).pipe(
+        map(exists => (exists ? { emailAlreadyExists: true } : null))
+      );
+    };
+  }
+
+  private usernameAlreadyExistsValidator(users: string[]): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return of(users.includes(control.value)).pipe(
+        map(exists => (exists ? { usernameAlreadyExists: true } : null))
+      );
+    };
   }
 }

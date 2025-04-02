@@ -10,6 +10,7 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: center;
     color: #333;
   }
   
@@ -61,7 +62,11 @@
   }
   
   .gym-form {
-    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
   }
   
   .gym-form input,
@@ -132,4 +137,26 @@ dialog::backdrop {
 
 .btn-close:hover {
   background-color: #0056b3 !important;
+}
+
+.btn btn-primary{
+  background-color: #28a745;
+  border: none;
+  color: #ffffff;
+}
+
+.btn btn-primary:hover{
+  background-color: #218838; 
+  color: #ffffff;
+}
+
+.btn btn-success{
+  background-color: #007bff;
+    border: none;
+    color: #ffffff;
+}
+
+.btn btn-success:hover{
+  background-color: #0056b3;
+    color: #ffffff;
 }

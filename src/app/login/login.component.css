@@ -101,11 +101,17 @@
     margin: 0.4rem 0;
   }
   .login-link {
-    color: #63b3ed;
+    margin-top: 15px;
+    color: #4299e1;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.3s ease;
+    text-align: center;
   }
   
   .login-link:hover {
-    color: #90cdf4;
+    color: #3182ce;
+    text-decoration: underline;
   }
 
 

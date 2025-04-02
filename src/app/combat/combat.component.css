@@ -2,14 +2,22 @@
   margin-top: 20px;
 }
 
-.combat-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.combat-title {
+  font-size: 24px;
+  font-weight: bold;
   margin-bottom: 20px;
-  overflow: hidden;
-  transition: all 0.3s ease;
+  text-align: center;
+  color: #333;
 }
+
+.combat-card {
+  background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
 
 .combat-card:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -23,13 +31,26 @@
 }
 
 .hidden-combat {
-  background-color: lightgray;
-  color: gray;
+  background-color: #f0f0f0; 
+  color: #a0a0a0; 
+  border: 1px solid #d0d0d0; 
+  opacity: 0.7; 
 }
-.hidden-combat {
-  background-color: #f0f0f0; /* Fondo gris claro */
-  color: #6c757d; /* Texto gris */
-  opacity: 0.7; /* Reducir opacidad */
+
+.list-group-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, opacity 0.3s;
+}
+
+.combat-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, opacity 0.3s;
 }
 
 .combat-id {
@@ -181,4 +202,26 @@ dialog::backdrop {
 
 .btn-close:hover {
   background-color: #0056b3 !important;
+}
+
+.btn btn-success{
+  background-color: #28a745;
+    border: none;
+    color: #ffffff;
+}
+
+.btn btn-success:hover{
+  background-color: #218838;
+    color: #ffffff;
+}
+
+.btn btn-primary mr-2{
+  background-color: #007bff;
+    border: none;
+    color: #ffffff;
+}
+
+.btn btn-primary mr-2:hover{
+  background-color: #0056b3;
+    color: #ffffff;
 }

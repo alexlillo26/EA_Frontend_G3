@@ -1,6 +1,6 @@
 <div class="container">
   <form [formGroup]="formularioLogin" (ngSubmit)="login()">
-    <h1>Bienvenido al back-office</h1>
+    <h1>Inicio de sesión</h1>
 
     <!-- Mensaje de error general -->
     <div *ngIf="errorMessage" class="alert alert-danger">
@@ -32,7 +32,7 @@
     </div>
     
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-primary">Iniciar sesión</button>
       <a routerLink="/register" class="login-link">¿No tienes cuenta? Regístrate</a>
     </div>
   </form>

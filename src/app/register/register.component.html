@@ -1,27 +1,29 @@
 <div class="container">
   <form [formGroup]="formularioRegistre" (ngSubmit)="registrar()">
-    <h1 class="form-title">Registre d'usuari</h1>
+    <h1 class="form-title">Registro de usuario</h1>
     
     <div class="form-group">
-      <label for="name">Nom:</label>
+      <label for="name">Nombre:</label>
       <input 
         type="text" 
         id="name" 
         formControlName="name"
         class="form-control"
         [ngClass]="{'form-control-error': teError('name', 'required')}">
-      <div class="error-message" *ngIf="teError('name', 'required')">Nom requerit.</div>
+      <div class="error-message" *ngIf="teError('name', 'required')">Nombre requerido.</div>
+      <div class="error-message" *ngIf="teError('name', 'usernameAlreadyExists')">El nombre de usuario ya está registrado.</div>
     </div>
 
     <div class="form-group">
-      <label for="birthDate">Data de naixement:</label>
+      <label for="birthDate">Fecha de nacimiento:</label>
       <input 
         type="date" 
         id="birthDate" 
         formControlName="birthDate"
         class="form-control"
         [ngClass]="{'form-control-error': teError('birthDate', 'required')}">
-      <div class="error-message" *ngIf="teError('birthDate', 'required')">Data de naixement requerida.</div>
+      <div class="error-message" *ngIf="teError('birthDate', 'required')">Fecha de nacimiento requerida.</div>
+      <div class="error-message" *ngIf="teError('birthDate', 'invalidBirthDate')">La fecha de nacimiento no puede ser la actual ni una fecha futura.</div>
     </div>
 
     <div class="form-group">
@@ -32,31 +34,32 @@
         formControlName="email"
         class="form-control"
         [ngClass]="{'form-control-error': teError('email', 'required') || teError('email', 'email')}">
-      <div class="error-message" *ngIf="teError('email', 'required')">Email requerit.</div>
-      <div class="error-message" *ngIf="teError('email', 'email')">Email invàlid.</div>
+      <div class="error-message" *ngIf="teError('email', 'required')">Email requerido.</div>
+      <div class="error-message" *ngIf="teError('email', 'email')">Email inválido.</div>
+      <div class="error-message" *ngIf="teError('email', 'emailAlreadyExists')">El email ya está registrado.</div>
     </div>
 
     <div class="form-group">
-      <label for="password">Contrasenya:</label>
+      <label for="password">Contraseña:</label>
       <input 
         type="password" 
         id="password" 
         formControlName="password"
         class="form-control"
         [ngClass]="{'form-control-error': teError('password', 'required') || teError('password', 'minlength')}">
-      <div class="error-message" *ngIf="teError('password', 'required')">Contrasenya requerida.</div>
-      <div class="error-message" *ngIf="teError('password', 'minlength')">La contrasenya ha de tenir almenys 8 caràcters.</div>
+      <div class="error-message" *ngIf="teError('password', 'required')">Contraseña requerida.</div>
+      <div class="error-message" *ngIf="teError('password', 'minlength')">La contraseña debe tener almenos 8 caracteres.</div>
     </div>
     <div class="form-group">
-      <label for="confirmPassword">Confirmar Contrasenya:</label>
+      <label for="confirmPassword">Confirmar Contraseña:</label>
       <input 
         type="password" 
         id="confirmPassword" 
         formControlName="confirmPassword"
         class="form-control"
         [ngClass]="{'form-control-error': teError('confirmPassword', 'required') || teError('confirmPassword', 'passwordMismatch')}">
-      <div class="error-message" *ngIf="teError('confirmPassword', 'required')">Confirmar contrasenya requerida.</div>
-      <div class="error-message" *ngIf="teError('confirmPassword', 'passwordMismatch')">Les contrasenyes no coincideixen.</div>
+      <div class="error-message" *ngIf="teError('confirmPassword', 'required')">Confirmar contraseña requerida.</div>
+      <div class="error-message" *ngIf="teError('confirmPassword', 'passwordMismatch')">Las contraseñas no coinciden.</div>
     </div>
 
     <div class="form-actions">
@@ -67,6 +70,20 @@
   <dialog id="RegistroExitoso" closedby="any">
     <h2>Registro exitoso</h2>
     <p>El registro se ha completado con éxito, ya puedes iniciar sesión</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog>
+  <dialog id="ErrorRegistro" closedby="any">
+    <h2>¡Cuidado!</h2>
+    <p>Vaya... Parece que ha habido un error al registrar el usuario.</p>
+    <form method="dialog">
+      <button type="submit" class="btn-close">Cerrar</button>
+    </form>
+  </dialog> 
+  <dialog id="FaltaDeDatos" closedby="any">
+    <h2>¡No tan rápido!</h2>
+    <p>Rellena todos los datos para poder crear el usuario.</p>
     <form method="dialog">
       <button type="submit" class="btn-close">Cerrar</button>
     </form>
