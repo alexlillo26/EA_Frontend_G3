@@ -108,12 +108,17 @@
         </div>
       </div>
 
+     
       <div class="card-footer bg-white">
         <button class="btn btn-outline-primary btn-sm mr-2" (click)="selectCombat(combat)">
           <i class="fas fa-edit"></i> Editar
         </button>
-        <button class="btn btn-outline-warning btn-sm" (click)="hideCombat(combat._id)">
-          <i class="fas fa-eye-slash"></i> Ocultar
+        <button
+          class="btn btn-outline-warning btn-sm"
+          (click)="combat._id ? hideCombat(combat._id, !combat.isHidden) : null"
+        >
+          <i class="fas" [ngClass]="combat.isHidden ? 'fa-eye' : 'fa-eye-slash'"></i>
+          {{ combat.isHidden ? 'Mostrar' : 'Ocultar' }}
         </button>
       </div>
     </div>

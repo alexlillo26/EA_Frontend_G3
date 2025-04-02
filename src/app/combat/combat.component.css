@@ -22,6 +22,16 @@
   background-color: #f8f9fa;
 }
 
+.hidden-combat {
+  background-color: lightgray;
+  color: gray;
+}
+
+.combat-hidden {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
 .combat-id {
   color: #495057;
   font-weight: bold;

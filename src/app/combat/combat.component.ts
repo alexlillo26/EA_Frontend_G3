@@ -99,27 +99,19 @@ export class CombatComponent implements OnInit {
     });
   }
 
-  // Obtener todos los combates
-  getCombats(): void {
-    this.loading = true;
-    
+    getCombats(): void {
     this.combatService.getCombats(this.page, this.pageSize).subscribe({
       next: (data) => {
-        // Asegúrese de que data.combats existe, de lo contrario utilice una matriz vacía
-        const combatsArray = data.combats || [];
-        
-        // Filtra los registros de batalla ocultos
-        this.combats = combatsArray.filter((combat: Combat) => !combat.isHidden);
-        
-        // Actualización de la información de paginación
-        this.totalCombats = data.totalCombats || 0;
-        this.totalPages = data.totalPages || 0;
-        
-        this.loading = false;
+        // Ordenar los combates: los ocultos (isHidden: true) al final
+        this.combats = data.combats.sort((a: { isHidden: any; }, b: { isHidden: any; }) => {
+          if (a.isHidden === b.isHidden) return 0;
+          return a.isHidden ? 1 : -1; // Los ocultos van al final
+        });
+        this.totalCombats = data.totalCombats;
+        this.totalPages = data.totalPages;
       },
       error: (error) => {
-        console.error('获取战斗列表时出错:', error);
-        this.loading = false;
+        console.error('Error al obtener combates:', error);
       }
     });
   }
@@ -179,27 +171,7 @@ export class CombatComponent implements OnInit {
     }
   }
 
-  // Eliminar combate
-  deleteCombat(id?: string): void {
-    if (!id) {
-      console.error('No se puede eliminar el combate: ID no definido');
-      return;
-    }
-
-    if (confirm('¿Está seguro que desea eliminar este combate?')) {
-      this.loading = true;
-      this.combatService.deleteCombat(id).subscribe({
-        next: () => {
-          this.combats = this.combats.filter((c) => c._id !== id);
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error al eliminar el combate:', error);
-          this.loading = false;
-        }
-      });
-    }
-  }
+  
 
   // Seleccionar combate para editar
   selectCombat(combat: Combat): void {
@@ -236,28 +208,31 @@ export class CombatComponent implements OnInit {
     return user ? user.name : 'Usuario desconocido';
   }
 
-
-  hideCombat(id?: string): void {
-    if (!id) {
-      console.error('No se puede ocultar el combate: ID no definido');
-      return;
-    }
-
-    if (confirm('¿Está seguro que desea ocultar este combate?')) {
-      this.loading = true;
-      this.combatService.hideCombat(id, true).subscribe({
-        next: (response) => {
-          // Solo quitamos el combate de la vista, no se elimina de la BD
-          this.combats = this.combats.filter(c => c._id !== id);
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error al ocultar el combate:', error);
-          this.loading = false;
+ // Ocultar un usuario - hideCombat
+ hideCombat(_id: string, isHidden: boolean): void {
+  this.userService.hideUser(_id, isHidden).subscribe(
+    () => {
+      // Refresh the user list after successfully hiding/showing the user
+      this.getCombats();
+      if (isHidden) {
+        const dialog: HTMLDialogElement | null = document.querySelector('#CombateOcultado');
+        if (dialog) {
+          dialog.showModal();
         }
-      });
+      }
+      else {
+        const dialog: HTMLDialogElement | null = document.querySelector('#CombateMostrado');
+        if (dialog) {
+          dialog.showModal();
+        }
+      }
+    },
+    (error) => {
+      console.error('Error al ocultar/mostrar combate:', error);
+      alert('Error al ocultar/mostrar combate: ' + JSON.stringify(error));
     }
-  }
-
+  );
+}
+     
 
 }
