@@ -104,6 +104,20 @@
     background-color: lightgray;
     color: gray;
   }
+  
+  .form-control-error {
+    border-color: #e53e3e;
+  }
+  
+  .form-control-error:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+  }
+  
+  .error-message {
+    color: #e53e3e;
+    font-size: 14px;
+    margin-top: 5px;
+  }
 
   dialog form {
     display: flex;

@@ -50,6 +50,10 @@ export class GymComponent implements OnInit {
     this.gymService.createGym(this.newGym).subscribe(
       (data) => {
         this.gyms.push(data);
+        const dialog: HTMLDialogElement | null = document.querySelector('#GimnasioCreado');
+        if (dialog){
+          dialog.showModal();
+        }
         this.newGym = { _id: '', name: '', place: '', price: 0, password: '', email: '', phone: '' }; // Resetear el formulario
       },
       (error) => {
@@ -67,6 +71,11 @@ export class GymComponent implements OnInit {
           if (index !== -1) {
             this.gyms[index] = data;
           }
+          const dialog: HTMLDialogElement | null = document.querySelector('#GimnasioActualizado');
+          if (dialog){
+            console.log('Dialogo encontrado, mostrando...');
+            dialog.showModal();
+          }
           this.selectedGym = null; // Limpiar selección
         },
         (error) => {
@@ -76,34 +85,33 @@ export class GymComponent implements OnInit {
     }
   }
 
-  // Eliminar un gimnasio
-  deleteGym(_id: string): void {
-    this.gymService.deleteGym(_id).subscribe(
-      () => {
-        this.gyms = this.gyms.filter((g) => g._id !== _id);
-      },
-      (error) => {
-        console.error('Error al eliminar gimnasio:', error);
-      }
-    );
-  }
-
   // Seleccionar un gimnasio para editar
   selectGym(gym: Gym): void {
     this.selectedGym = { ...gym }; // Crear una copia para evitar modificar directamente
   }
-    // Ocultar o mostrar un gimnasio
-    hideGym(_id: string, isHidden: boolean): void {
-      this.gymService.hideGym(_id, isHidden).subscribe(
-        () => {
-          // Actualizar la lista de gimnasios después de ocultar/mostrar
-          this.getGyms();
-          alert(`Gimnasio ${isHidden ? 'ocultado' : 'mostrado'} exitosamente`);
-        },
-        (error) => {
-          console.error('Error al ocultar/mostrar gimnasio:', error);
-          alert('Error al ocultar/mostrar gimnasio: ' + JSON.stringify(error));
+  // Ocultar o mostrar un gimnasio
+  hideGym(_id: string, isHidden: boolean): void {
+    this.gymService.hideGym(_id, isHidden).subscribe(
+      () => {
+        // Actualizar la lista de gimnasios después de ocultar/mostrar
+        this.getGyms();
+        if (isHidden) {
+          const dialog: HTMLDialogElement | null = document.querySelector('#GimnasioOcultado');
+          if (dialog){
+            dialog.showModal();
+          }
         }
-      );
-    }
+        else {
+          const dialog: HTMLDialogElement | null = document.querySelector('#GimnasioMostrado');
+          if (dialog){
+            dialog.showModal();
+          }
+        }
+      },
+      (error) => {
+        console.error('Error al ocultar/mostrar gimnasio:', error);
+        alert('Error al ocultar/mostrar gimnasio: ' + JSON.stringify(error));
+      }
+    );
+  }
 }

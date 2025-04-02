@@ -1,7 +1,7 @@
 export interface User {
     _id: string;
     name: string;
-    birthDate: Date;
+    birthDate: Date | undefined;
     email: string;
     isAdmin: boolean;
     isHidden: boolean;
@@ -10,7 +10,7 @@ export interface User {
 
   export interface CreateUserDTO {
     name: string;
-    birthDate: Date;
+    birthDate: Date | undefined;
     email: string;
     password: string;
     isAdmin: boolean;
