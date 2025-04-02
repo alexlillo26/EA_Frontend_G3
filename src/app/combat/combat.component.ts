@@ -208,31 +208,32 @@ export class CombatComponent implements OnInit {
     return user ? user.name : 'Usuario desconocido';
   }
 
- // Ocultar un usuario - hideCombat
+
+ // Ocultar un usuario
  hideCombat(_id: string, isHidden: boolean): void {
-  this.userService.hideUser(_id, isHidden).subscribe(
+  this.combatService.hideCombat(_id, isHidden).subscribe(
     () => {
       // Refresh the user list after successfully hiding/showing the user
       this.getCombats();
       if (isHidden) {
-        const dialog: HTMLDialogElement | null = document.querySelector('#CombateOcultado');
+        const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioOcultado');
         if (dialog) {
           dialog.showModal();
         }
       }
       else {
-        const dialog: HTMLDialogElement | null = document.querySelector('#CombateMostrado');
+        const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioMostrado');
         if (dialog) {
           dialog.showModal();
         }
       }
     },
-    (error) => {
-      console.error('Error al ocultar/mostrar combate:', error);
-      alert('Error al ocultar/mostrar combate: ' + JSON.stringify(error));
+    (error: any) => {
+      console.error('Error al ocultar/mostrar usuario:', error);
+      alert('Error al ocultar/mostrar usuario: ' + JSON.stringify(error));
     }
   );
 }
-     
+
 
 }

@@ -26,10 +26,10 @@
   background-color: lightgray;
   color: gray;
 }
-
-.combat-hidden {
-  opacity: 0.5;
-  filter: grayscale(100%);
+.hidden-combat {
+  background-color: #f0f0f0; /* Fondo gris claro */
+  color: #6c757d; /* Texto gris */
+  opacity: 0.7; /* Reducir opacidad */
 }
 
 .combat-id {
@@ -133,4 +133,9 @@
 .btn-delete:hover {
   background-color: #e53e3e;
   color: white;
+}
+
+.hidden-combat {
+  background-color: lightgray;
+  color: gray;
 }
