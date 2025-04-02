@@ -133,19 +133,55 @@ export class CombatComponent implements OnInit {
 
   // Crear un nuevo combate
   createCombat(): void {
+    if (!this.newCombat.gym || !this.newCombat.date || this.newCombat.boxers.length === 0) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#FaltaDeDatos');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (!this.newCombat.date || new Date(this.newCombat.date) < new Date(new Date().toISOString().split('T')[0])) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#FechaInvalida');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (this.newCombat.boxers.length < 2) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#BoxeadoresInsuficientes');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
+    if (this.newCombat.boxers.length > 2) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#BoxeadoresExcedidos');
+      if (dialog) {
+        dialog.showModal();
+      }
+      return;
+    }
     if (this.newCombat.date instanceof Date) {
       this.newCombat.date = this.newCombat.date.toISOString().split('T')[0];
     }
     this.loading = true;
     this.combatService.createCombat(this.newCombat).subscribe({
       next: (data) => {
-        this.combats.push(data);
+        this.combats.push(data); 
         this.newCombat = { gym: '', date: new Date(), boxers: [] };
         this.loading = false;
+        const dialog: HTMLDialogElement | null = document.querySelector('#CombateCreado');
+        if (dialog) {
+          dialog.showModal();
+        }
       },
       error: (error) => {
         console.error('Error al crear el combate:', error);
         this.loading = false;
+        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorCombateCreado');
+        if (dialog) {
+          dialog.showModal();
+        }
       }
     });
   }
@@ -162,10 +198,18 @@ export class CombatComponent implements OnInit {
           }
           this.selectedCombat = null;
           this.loading = false;
+          const dialog: HTMLDialogElement | null = document.querySelector('#CombateActualizado');
+          if (dialog) {
+            dialog.showModal();
+          }
         },
         error: (error) => {
           console.error('Error al actualizar el combate:', error);
           this.loading = false;
+          const dialog: HTMLDialogElement | null = document.querySelector('#ErrorCombateActualizado');
+          if (dialog) {
+            dialog.showModal();
+          }
         }
       });
     }
@@ -209,20 +253,19 @@ export class CombatComponent implements OnInit {
   }
 
 
- // Ocultar un usuario
+ // Ocultar un combate
  hideCombat(_id: string, isHidden: boolean): void {
   this.combatService.hideCombat(_id, isHidden).subscribe(
     () => {
-      // Refresh the user list after successfully hiding/showing the user
       this.getCombats();
       if (isHidden) {
-        const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioOcultado');
+        const dialog: HTMLDialogElement | null = document.querySelector('#CombateOcultado');
         if (dialog) {
           dialog.showModal();
         }
       }
       else {
-        const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioMostrado');
+        const dialog: HTMLDialogElement | null = document.querySelector('#CombateMostrado');
         if (dialog) {
           dialog.showModal();
         }
@@ -230,7 +273,18 @@ export class CombatComponent implements OnInit {
     },
     (error: any) => {
       console.error('Error al ocultar/mostrar usuario:', error);
-      alert('Error al ocultar/mostrar usuario: ' + JSON.stringify(error));
+      if (isHidden) {
+        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorCombateOcultado');
+        if (dialog) {
+          dialog.showModal();
+        }
+      }
+      else {
+        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorCombateMostrado');
+        if (dialog) {
+          dialog.showModal();
+        }
+      }
     }
   );
 }
