@@ -45,6 +45,10 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.formularioLogin.invalid) {
       this.formularioLogin.markAllAsTouched();
+      const dialog: HTMLDialogElement | null = document.querySelector('#ErrorLogin');
+      if (dialog){
+        dialog.showModal();
+      }
       return;
     }
   

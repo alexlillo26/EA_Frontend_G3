@@ -8,6 +8,7 @@ import { AuthService } from './services/auth.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { CommonModule } from '@angular/common';
+import { User } from './models/user.model';
 
 
 @Component({
@@ -19,12 +20,15 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'EA_FrontEnd_G3';
+  users: User[] = [];
+  user = new User();
   loggedin: boolean = false;
   constructor(private authService: AuthService){
     this.authService.isLoggedIn.subscribe((loggedIn) => {
       this.loggedin = loggedIn;
     });
   }
+
   logout(){
     this.authService.logout();
   }

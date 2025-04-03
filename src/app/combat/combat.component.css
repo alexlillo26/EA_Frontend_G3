@@ -225,3 +225,11 @@ dialog::backdrop {
   background-color: #0056b3;
     color: #ffffff;
 }
+
+.pagination-controls{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
