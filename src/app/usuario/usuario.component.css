@@ -161,3 +161,11 @@
   .btn-close:hover {
     background-color: #0056b3 !important;
   }
+
+  .pagination-controls{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }

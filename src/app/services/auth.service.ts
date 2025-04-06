@@ -29,9 +29,8 @@ export class AuthService {
         } else if (response && response.user && response.user.isAdmin === false) {
           this.loggedIn.next(false);
           this.router.navigate(['/welcome']); // Redirigir a la página de bienvenida
-        } else {
+        }else {
           console.error('Estructura de la respuesta inesperada:', response);
-          alert('Error: Respuesta inesperada del servidor.');
         }
       }),
       catchError((error) => {
@@ -41,7 +40,7 @@ export class AuthService {
         if (error.error && error.error.message === 'Este usuario está oculto y no puede iniciar sesión') {
           alert('Este usuario está oculto y no puede iniciar sesión.');
         } else {
-          alert('Error en el servidor. Inténtalo más tarde.');
+          
         }
 
         return throwError(() => new Error(error.error.message || 'Error al iniciar sesión.'));

@@ -5,3 +5,20 @@
     text-align: center;
     color: #333;
 }
+
+.btn-btn-secondary {
+    position: absolute; 
+    
+    right: 20px; 
+    background-color: #ff4d4d; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px;
+    font-size: 14px; 
+    border-radius: 5px;
+    cursor: pointer;  
+  }
+  
+  .btn-btn-secondary:hover {
+    background-color: #e60000; 
+  }

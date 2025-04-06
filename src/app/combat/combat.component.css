@@ -156,4 +156,37 @@ dialog::backdrop {
 
 .btn-close:hover {
   background-color: #0056b3 !important;
+<<<<<<< HEAD
+=======
+}
+
+.btn btn-success{
+  background-color: #28a745;
+    border: none;
+    color: #ffffff;
+}
+
+.btn btn-success:hover{
+  background-color: #218838;
+    color: #ffffff;
+}
+
+.btn btn-primary mr-2{
+  background-color: #007bff;
+    border: none;
+    color: #ffffff;
+}
+
+.btn btn-primary mr-2:hover{
+  background-color: #0056b3;
+    color: #ffffff;
+}
+
+.pagination-controls{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+>>>>>>> da44fb045bdeca11dac30b5fae8f90454dc9fb5e
 }
