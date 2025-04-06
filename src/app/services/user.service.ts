@@ -7,6 +7,7 @@ import { CreateUserDTO, User } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService {
+  [x: string]: any;
   private registerUrl = 'http://localhost:9000/api/users/register';
   private listUrl = 'http://localhost:9000/api/users';
   private updateUrl = 'http://localhost:9000/api/users';

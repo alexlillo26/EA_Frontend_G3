@@ -92,8 +92,8 @@
   }
   /* Estilo para gimnasios ocultos */
 .hidden-gym {
-  background-color: lightgray;
-  color: gray;
+  background-color: rgb(221, 30, 30);
+  color: rgb(37, 156, 37);
 }
 
 dialog form {

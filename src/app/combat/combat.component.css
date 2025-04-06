@@ -1,8 +1,13 @@
-.combat-list-container {
-  margin-top: 20px;
+/* Contenedor general para el componente de combate */
+.combat-container {
+  padding: 20px;
+  background-color: #ece7e7;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.combat-title {
+/* Encabezado del componente de combate */
+.combat-header {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -10,162 +15,111 @@
   color: #333;
 }
 
-.combat-card {
-  background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+/* Lista de combates */
+.combat-list {
+  list-style-type: none;
+  padding: 0;
 }
 
-
-.combat-card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.combat-header {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-  background-color: #f8f9fa;
-}
-
-.hidden-combat {
-  background-color: #f0f0f0; 
-  color: #a0a0a0; 
-  border: 1px solid #d0d0d0; 
-  opacity: 0.7; 
-}
-
-.list-group-item {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, opacity 0.3s;
-}
-
+/* Elementos individuales de la lista de combates */
 .combat-item {
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, opacity 0.3s;
-}
-
-.combat-id {
-  color: #495057;
-  font-weight: bold;
-  margin: 0;
-}
-
-.combat-id .id-value {
-  font-weight: normal;
-  color: #6c757d;
-}
-
-.combat-date {
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.combat-body {
-  padding: 15px;
-}
-
-.info-section {
-  margin-bottom: 12px;
-}
-
-.info-label {
-  font-weight: 600;
-  color: #495057;
-  margin-right: 8px;
-}
-
-.boxer-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.entity-badge {
-  display: inline-flex;
-  padding: 5px 10px;
+  background-color: #fff;
+  border: 1px solid #6a1515;
   border-radius: 4px;
-  background-color: #f1f8ff;
-  border: 1px solid #d1e5f9;
-  color: #0366d6;
-  font-size: 0.9rem;
-}
-
-.gym-badge {
-  background-color: #f1f8ff;
-  border-color: #d1e5f9;
-  color: #0366d6;
-}
-
-.boxer-badge {
-  background-color: #f0fff4;
-  border-color: #c6f6d5;
-  color: #38a169;
-}
-
-.id-display {
-  font-size: 0.8rem;
-  color: #718096;
-  margin-left: 4px;
-}
-
-.combat-footer {
-  padding: 12px 15px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #eee;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.combat-item:hover {
+  background-color: #d2cbcb;
+}
+
+/* Nombre del combate */
+.combat-item-name {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Acciones del combate */
+.combat-item-actions {
+  display: flex;
   gap: 10px;
 }
 
-.btn-edit {
-  background-color: #4299e1;
-  color: white;
+.combat-item-actions button {
+  padding: 5px 10px;
   border: none;
-  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.btn-edit:hover {
-  background-color: #3182ce;
+.combat-item-actions .edit-button {
+  background-color: #4caf50;
+  color: #fff;
 }
 
-.btn-delete {
-  background-color: #fff;
-  color: #e53e3e;
-  border: 1px solid #e53e3e;
-  padding: 6px 12px;
+.combat-item-actions .delete-button {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.combat-item-actions .hide-button {
+  background-color: #c98622;
+  color: #fff;
+}
+
+.combat-item-actions .hide-button:hover {
+  background-color: #e68900;
+}
+
+/* Formulario del componente de combate */
+.combat-form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.combat-form input,
+.combat-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.combat-form button {
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
-.btn-delete:hover {
-  background-color: #e53e3e;
-  color: white;
+.combat-form button:hover {
+  background-color: #1976d2;
 }
 
+/* Estilo para combates ocultos */
 .hidden-combat {
-  background-color: lightgray;
-  color: gray;
+  background-color: rgb(207, 25, 25);
+  color: rgb(185, 22, 22);
 }
 
+/* Diálogo */
 dialog form {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 dialog {
   width: 300px !important;
   max-width: 90% !important;
@@ -202,26 +156,4 @@ dialog::backdrop {
 
 .btn-close:hover {
   background-color: #0056b3 !important;
-}
-
-.btn btn-success{
-  background-color: #28a745;
-    border: none;
-    color: #ffffff;
-}
-
-.btn btn-success:hover{
-  background-color: #218838;
-    color: #ffffff;
-}
-
-.btn btn-primary mr-2{
-  background-color: #007bff;
-    border: none;
-    color: #ffffff;
-}
-
-.btn btn-primary mr-2:hover{
-  background-color: #0056b3;
-    color: #ffffff;
 }
