@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -12,106 +13,62 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit {
-[x: string]: any;
   currentUser: User = {
-    _id: '', name: '', email: '', birthDate: undefined, password: '',
+    _id: '',
+    name: '',
+    email: '',
+    birthDate: undefined,
+    password: '',
     isAdmin: false,
     isHidden: false
   };
 
-  constructor(private userService: UserService) {}
+
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
+    this.route.queryParams.subscribe((params) => {
+      const userId = params['id']; // Obtén el ID del parámetro de consulta
+      if (userId) {
+        this.getCurrentUser(userId);
+      }
+    });
   }
 
-  // Obtener el usuario actual
-  getCurrentUser(): void {
-    this.userService['getCurrentUser']().subscribe(
+
+  // Obtener el usuario actual desde el backend
+  getCurrentUser(userId: string): void {
+    this.userService.getCurrentUser(userId).subscribe(
       (user: User) => {
         console.log('Usuario actual obtenido:', user);
-        this.currentUser = user;
+        this.currentUser = user; // Almacenar los datos del usuario en currentUser
       },
       (error: any) => {
         console.error('Error al obtener el usuario actual:', error);
-        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorObtenerUsuario');
-        if (dialog) {
-          dialog.showModal();
-        }
       }
     );
   }
 
   // Actualizar los datos del usuario
   updateUser(): void {
-    if (!this.currentUser.name || !this.currentUser.email || !this.currentUser.birthDate || !this.currentUser.password) {
-      const dialog: HTMLDialogElement | null = document.querySelector('#FaltaDeDatos');
-      if (dialog) {
-        dialog.showModal();
-      }
-      return;
-    }
-
-    if (this.isBirthDateInvalid()) {
-      const dialog: HTMLDialogElement | null = document.querySelector('#FechaInvalida');
-      if (dialog) {
-        dialog.showModal();
-      }
-      return;
-    }
-
-    if (!this.isEmailValid(this.currentUser.email)) {
-      const dialog: HTMLDialogElement | null = document.querySelector('#EmailInvalido');
-      if (dialog) {
-        dialog.showModal();
-      }
+    console.log("******************** currentUser", this.currentUser);
+    if (!this.currentUser._id) {
+      console.error('El ID del usuario no está definido.');
+      alert('No se puede actualizar el usuario porque falta el ID.');
       return;
     }
 
     console.log('Actualizando usuario:', this.currentUser);
+
     this.userService.updateUser(this.currentUser).subscribe(
       (updatedUser) => {
         console.log('Usuario actualizado:', updatedUser);
-        this.currentUser = updatedUser;
-        const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioActualizado');
-        if (dialog) {
-          dialog.showModal();
-        }
+        alert('Los datos del usuario se han actualizado correctamente.');
       },
       (error) => {
-        console.error('Error al actualizar usuario:', error);
-        const dialog: HTMLDialogElement | null = document.querySelector('#ErrorUsuarioActualizado');
-        if (dialog) {
-          dialog.showModal();
-        }
+        console.error('Error al actualizar el usuario:', error);
+        alert('Hubo un error al actualizar los datos del usuario.');
       }
     );
-  }
-
-  // Validar fecha de nacimiento
-  isBirthDateInvalid(): boolean {
-    if (!this.currentUser.birthDate) {
-      return true;
-    }
-
-    const today = new Date();
-    const birthDate = new Date(this.currentUser.birthDate);
-
-    // Verificar si la fecha es la actual o una fecha futura
-    return (
-      birthDate.getTime() === new Date('1970-01-01').getTime() ||
-      birthDate >= new Date(today.toISOString().split('T')[0])
-    );
-  }
-
-    cancelEdit(): void {
-    console.log('Edición cancelada');
-    this.getCurrentUser(); // Restaurar los datos originales del usuario
-  }
-
-  // Validar correo electrónico
-  isEmailValid(email: string): boolean {
-    const emailRegex = /^[^\s@]+@(gmail|yahoo|hotmail|outlook|icloud|protonmail)\.(com|es|org|net|edu|gov|info|io|co|us|uk)$/i;
-    return emailRegex.test(email);
   }
 }

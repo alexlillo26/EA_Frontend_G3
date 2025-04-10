@@ -156,8 +156,6 @@ dialog::backdrop {
 
 .btn-close:hover {
   background-color: #0056b3 !important;
-<<<<<<< HEAD
-=======
 }
 
 .btn btn-success{
@@ -188,5 +186,4 @@ dialog::backdrop {
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 20px;
->>>>>>> da44fb045bdeca11dac30b5fae8f90454dc9fb5e
 }

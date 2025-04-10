@@ -28,15 +28,22 @@ export class UserService {
     return this.http.get<{users: User[], totalUsers: number, totalPages: number, currentPage: number}>(this.listUrl, { params });
   }
 
-  // Actualizar un usuario por ID
-  updateUser(user: User): Observable<User> {
-    console.log("user", user)
-    return this.http.put<User>(`${this.updateUrl}/${user._id}`, user);
-  }
+      updateUser(user: User): Observable<User> {
+      const url = `${this.updateUrl}/${user._id}`; // Usa la propiedad updateUrl para construir la URL
+      console.log('URL de la solicitud:', url); // Para depuración
+      return this.http.put<User>(url, user);
+    }
 
   // Ocultar un usuario por ID
   hideUser(_id: string, isHidden: boolean): Observable<User> {
     return this.http.put<User>(`${this.hideUrl}/${_id}/oculto`, { isHidden });
+  }
+
+
+  getCurrentUser(userId: string): Observable<User> {
+  const url = `${this.listUrl}/`+userId; // Endpoint para obtener el usuario logueado
+  console.log('URL de la  parasolicitud obtener el usuario actual:', url); // Para depuración
+  return this.http.get<User>(url);
   }
 
 }

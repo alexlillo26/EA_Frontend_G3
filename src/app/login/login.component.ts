@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
         this.loggedin.emit();
         this.formularioLogin.reset();
         this.user = user;
+        console.log("LOGIN user ", user);
         setTimeout(() => {
         const dialog: HTMLDialogElement | null = document.querySelector('#LoginExitoso');
         if (dialog){
@@ -70,7 +71,8 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/users']); // Redirigir a la gestión de usuarios
             }
             else {
-              this.router.navigate(['/welcome']); // Redirigir a la página de bienvenida
+              console.log("is Admiin", this.user.isAdmin);
+              this.router.navigate(['/welcome'], { queryParams: { id: this.user._id } }); // Redirigir a la página de bienvenida
             }
             console.log('El diálogo se cerró automáticamente');
           });
