@@ -1,15 +1,16 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import 'dialog-polyfill';
 import * as dialogPolyfill from 'dialog-polyfill';
+import { authInterceptor } from './app/interceptors/auth.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes), // Configuración de rutas
-    provideHttpClient() // Proveedor para realizar solicitudes HTTP
+    provideHttpClient(withInterceptors([authInterceptor])) // Proveedor para realizar solicitudes HTTP con interceptor
   ]
 }).catch((err) => console.error(err));
 
