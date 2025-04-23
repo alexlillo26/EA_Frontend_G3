@@ -17,6 +17,11 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
+  // Add a public method to update the loggedIn state
+  updateLoggedInState(state: boolean): void {
+    this.loggedIn.next(state);
+  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
@@ -27,7 +32,10 @@ export class AuthService {
 
   setTokens(token: string, refreshToken: string): void {
     localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', refreshToken);
+    if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+    }
+    this.updateLoggedInState(true); // Use the public method to update the state
   }
 
   login(credentials: { email: string; password: string }): Observable<User> {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { UserComponent } from "./usuario/usuario.component";
@@ -23,13 +23,30 @@ export class AppComponent {
   users: User[] = [];
   user = new User();
   loggedin: boolean = false;
-  constructor(private authService: AuthService){
+
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.isLoggedIn.subscribe((loggedIn) => {
       this.loggedin = loggedIn;
     });
+
+    // Handle token and user type after Google OAuth login
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const userType = urlParams.get('type'); // 'user' or 'gym'
+
+    if (token) {
+      this.authService.setTokens(token, ''); // Save the token
+      this.authService.updateLoggedInState(true); // Update login state using the public method
+      console.log(`Logged in as ${userType}`); // Debugging user type
+
+      // Redirect to /users regardless of userType
+  this.router.navigate(['/users']); // Redirigir a la gestión de usuarios
+
+  window.history.replaceState({}, document.title, '/'); // Clean the URL
+    }
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
   }
 }
