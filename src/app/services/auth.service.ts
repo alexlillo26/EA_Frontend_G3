@@ -85,6 +85,31 @@ export class AuthService {
     window.location.href = 'http://localhost:9000/api/auth/google';
   }
 
+  googleRegister(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/auth/google`).pipe(
+      tap((response) => {
+        console.log('Datos obtenidos de Google:', response);
+      }),
+      catchError((error) => {
+        console.error('Error en Google Register:', error);
+        return throwError(() => new Error('Error en Google Register'));
+      })
+    );
+  }
+
+  completeGoogleRegister(password: string): Observable<any> {
+    const code = new URLSearchParams(window.location.search).get('code');
+    return this.http.post<any>(`${this.apiUrl}/auth/google/register`, { code, password }).pipe(
+      tap((response) => {
+        this.setTokens(response.token, response.refreshToken);
+      }),
+      catchError((error) => {
+        console.error('Error al completar registro con Google:', error);
+        return throwError(() => new Error('Error al completar registro con Google'));
+      })
+    );
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');

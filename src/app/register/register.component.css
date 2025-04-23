@@ -85,6 +85,24 @@ label {
   transform: translateY(1px);
 }
 
+.btn-google {
+  width: 100%;
+  padding: 12px;
+  background-color: #db4437;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.btn-google:hover {
+  background-color: #c23321;
+}
+
 .login-link {
   margin-top: 15px;
   color: #4299e1;
