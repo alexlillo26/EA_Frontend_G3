@@ -74,7 +74,7 @@ export class AuthService {
   }
 
   googleLogin(): void {
-    window.location.href = `${this.apiUrl}/auth/google`;
+    window.location.href = 'http://localhost:9000/api/auth/google';
   }
 
   logout() {
