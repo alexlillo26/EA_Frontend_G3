@@ -26,23 +26,23 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router) {
     this.authService.isLoggedIn.subscribe((loggedIn) => {
-      this.loggedin = loggedIn;
+        this.loggedin = loggedIn;
     });
 
-    // Handle token and user type after Google OAuth login
+    // Manejo de token y tipo de usuario después del inicio de sesión con Google OAuth
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
-    const userType = urlParams.get('type'); // 'user' or 'gym'
+    const userType = urlParams.get('type'); // 'user' o 'gym'
 
     if (token) {
-      this.authService.setTokens(token, ''); // Save the token
-      this.authService.updateLoggedInState(true); // Update login state using the public method
-      console.log(`Logged in as ${userType}`); // Debugging user type
+        this.authService.setTokens(token, ''); // Guarda el token
+        this.authService.updateLoggedInState(true); // Actualiza el estado de inicio de sesión
+        console.log(`Logged in as ${userType}`); // Depuración del tipo de usuario
 
-      // Redirect to /users regardless of userType
-  this.router.navigate(['/users']); // Redirigir a la gestión de usuarios
+        // Redirige a /users independientemente del tipo de usuario
+        this.router.navigate(['/users']); // Redirigir a la gestión de usuarios
 
-  window.history.replaceState({}, document.title, '/'); // Clean the URL
+        window.history.replaceState({}, document.title, '/'); // Limpia la URL
     }
   }
 

@@ -22,21 +22,21 @@ export class AuthService {
     this.loggedIn.next(state);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
-  }
-
   setTokens(token: string, refreshToken: string): void {
     localStorage.setItem('token', token);
     if (refreshToken) {
         localStorage.setItem('refreshToken', refreshToken);
     }
-    this.updateLoggedInState(true); // Use the public method to update the state
-  }
+    this.updateLoggedInState(true); // Actualiza el estado de inicio de sesión
+}
+
+getToken(): string | null {
+    return localStorage.getItem('token');
+}
+
+getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
+}
 
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/users/login`, credentials).pipe(
@@ -82,7 +82,7 @@ export class AuthService {
   }
 
   googleLogin(): void {
-    window.location.href = 'http://localhost:9000/api/auth/google';
+    window.location.href = 'http://localhost:9000/api/auth/google?origin=frontend';
   }
 
   googleRegister(): Observable<any> {
