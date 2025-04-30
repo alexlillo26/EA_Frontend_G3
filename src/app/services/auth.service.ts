@@ -74,12 +74,12 @@ getRefreshToken(): string | null {
   refreshAccessToken(): Observable<string> {
     const refreshToken = this.getRefreshToken();
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/refresh-token`, { refreshToken }).pipe(
-      tap((response) => {
-        this.setTokens(response.token, refreshToken!);
-      }),
-      map((response) => response.token)
+        tap((response) => {
+            this.setTokens(response.token, refreshToken!); // Save the new token
+        }),
+        map((response) => response.token)
     );
-  }
+}
 
   googleLogin(): void {
     window.location.href = 'http://localhost:9000/api/auth/google?origin=frontend';

@@ -31,18 +31,18 @@ export const authInterceptor = (req: HttpRequest<any>, next: HttpHandlerFn): Obs
 
           return authService.refreshAccessToken().pipe(
             switchMap((newToken: string) => {
-              isRefreshing = false;
-              refreshTokenSubject.next(newToken);
+                isRefreshing = false;
+                refreshTokenSubject.next(newToken);
 
-              const refreshToken = authService.getRefreshToken() || ''; // Provide a fallback value
-              authService.setTokens(newToken, refreshToken);
+                const refreshToken = authService.getRefreshToken() || ''; // Ensure refreshToken is retrieved
+                authService.setTokens(newToken, refreshToken);
 
-              return next(addToken(req, newToken));
+                return next(addToken(req, newToken));
             }),
             catchError((err) => {
-              isRefreshing = false;
-              authService.logout();
-              return throwError(() => err);
+                isRefreshing = false;
+                authService.logout();
+                return throwError(() => err);
             })
           );
         } else {
