@@ -16,7 +16,17 @@ import { CreateUserDTO } from '../models/user.model';
 })
 export class UserComponent implements OnInit {
   users: User[] = [];
-  newUser: User = { _id: '', name: '', email: '', birthDate: undefined, isAdmin: false, isHidden: false, password: '' };
+  newUser: User & { city?: string; weight?: string } = { 
+    _id: '', 
+    name: '', 
+    email: '', 
+    birthDate: undefined, 
+    isAdmin: false, 
+    isHidden: false, 
+    password: '', 
+    city: '', 
+    weight: '' 
+  };
   selectedUser: User | null = null;
   page: number = 1;
   pageSize: number = 10;
@@ -47,7 +57,7 @@ export class UserComponent implements OnInit {
   }
 
   createUser(): void {
-    if (!this.newUser.name || !this.newUser.email || !this.newUser.birthDate || !this.newUser.password) {
+    if (!this.newUser.name || !this.newUser.email || !this.newUser.birthDate || !this.newUser.password || !this.newUser['weight'] || !this.newUser['city']) {
       const dialog: HTMLDialogElement | null = document.querySelector('#FaltaDeDatos');
       if (dialog) {
         dialog.showModal();
@@ -99,6 +109,8 @@ export class UserComponent implements OnInit {
       password: this.newUser.password,
       isAdmin: this.newUser.isAdmin,
       isHidden: this.newUser.isHidden,
+      weight: this.newUser['weight'], // Include weight
+      city: this.newUser['city']      // Include city
     };
 
     console.log('Datos enviados al backend:', userToCreate);

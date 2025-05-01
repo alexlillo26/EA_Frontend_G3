@@ -35,10 +35,12 @@ export class RegisterComponent {
     this.formularioRegistre = this.form.group({
       name: ['', Validators.required],
       birthDate: ['', [Validators.required, this.birthDateValidator]],
-      email: ['', [Validators.required, Validators.email],],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
-    }, {validator: this.passwordMatchValidator});
+      confirmPassword: ['', Validators.required],
+      weight: ['', Validators.required], // New field
+      city: ['', Validators.required]    // New field
+    }, { validator: this.passwordMatchValidator });
 
     this.googlePasswordForm = this.form.group({
       password: ['', [Validators.required, Validators.minLength(8)]],
