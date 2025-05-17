@@ -38,7 +38,7 @@ export class WelcomeComponent implements OnInit {
 
   // Obtener el usuario actual desde el backend
   getCurrentUser(userId: string): void {
-    this.userService.getCurrentUser(userId).subscribe(
+    this.userService.getUserById(userId).subscribe(
       (user: User) => {
         console.log('Usuario actual obtenido:', user);
         this.currentUser = user; // Almacenar los datos del usuario en currentUser
