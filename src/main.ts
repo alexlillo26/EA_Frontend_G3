@@ -10,7 +10,7 @@ import { authInterceptor } from './app/interceptors/auth.interceptor';
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes), // Configuración de rutas
-    provideHttpClient(withInterceptors([authInterceptor])) // Proveedor para realizar solicitudes HTTP con interceptor
+    provideHttpClient(withInterceptors([authInterceptor])) // Remove invalid withCredentials
   ]
 }).catch((err) => console.error(err));
 

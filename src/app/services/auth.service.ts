@@ -73,11 +73,20 @@ getRefreshToken(): string | null {
 
   refreshAccessToken(): Observable<string> {
     const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+        console.error('❌ Refresh token is missing.'); // Log missing refresh token
+        return throwError(() => new Error('Refresh token is missing.'));
+    }
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/refresh-token`, { refreshToken }).pipe(
         tap((response) => {
-            this.setTokens(response.token, refreshToken!); // Save the new token
+            console.log('✅ Refresh token response:', response); // Log the response
+            this.setTokens(response.token, refreshToken); // Update token, keep refreshToken
         }),
-        map((response) => response.token)
+        map((response) => response.token),
+        catchError((error) => {
+            console.error('❌ Error refreshing token:', error); // Log refresh error
+            return throwError(() => error);
+        })
     );
 }
 
