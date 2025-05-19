@@ -1,112 +1,119 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+// Asegúrate de importar HttpParams si no estaba ya
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Combat } from '../models/combat.model';
+import { Combat } from '../models/combat.model'; // Asegúrate de que la ruta a tu modelo Combat sea correcta
 
 @Injectable({
   providedIn: 'root',
 })
 export class CombatService {
-  private apiUrl = 'http://localhost:9000/api';
+  // ANTES: private apiUrl = 'http://localhost:9000/api';
+  // AHORA: URL base apuntando al proxy del backend. Los paths como '/combat' se añadirán a esta.
+  private apiUrl = 'http://ea3-api.upc.edu/api';
 
   constructor(private http: HttpClient) { }
 
   // Crear nuevo combate
   createCombat(combat: Combat): Observable<Combat> {
-    // Preparar datos para enviar al backend
     const combatData = {
       gym: combat.gym, // ID del gimnasio
       date: combat.date instanceof Date ? combat.date : new Date(combat.date),
       boxers: this.processBoxers(combat.boxers) // Asegurarse de que boxers sea un array
     };
-
-    console.log('Datos enviados al servidor:', combatData);
-
+    console.log('Datos enviados al servidor para crear combate:', combatData); // Log mantenido
+    // La petición irá a: http://ea3-api.upc.edu/api/combat
     return this.http.post<Combat>(`${this.apiUrl}/combat`, combatData)
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
-  // Obtener todos los combates
-  getCombats(page: number = 1, pageSize: number = 10): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/combat?page=${page}&pageSize=${pageSize}`)
+  // Obtener todos los combates con paginación
+  getCombats(page: number = 1, pageSize: number = 10): Observable<any> { // Considera un tipo más específico que 'any' para la respuesta
+    // Construir HttpParams para la paginación de forma más segura y limpia
+    let params = new HttpParams();
+    params = params.set('page', page.toString());
+    params = params.set('pageSize', pageSize.toString());
+    // La petición irá a: http://ea3-api.upc.edu/api/combat?page=...&pageSize=...
+    return this.http.get<any>(`${this.apiUrl}/combat`, { params }) // Pasar params como objeto
       .pipe(catchError(this.handleError));
   }
 
   // Obtener combate por ID
   getCombatById(_id: string): Observable<Combat> {
+    // La petición irá a: http://ea3-api.upc.edu/api/combat/<_id>
     return this.http.get<Combat>(`${this.apiUrl}/combat/${_id}`)
       .pipe(catchError(this.handleError));
   }
 
   // Actualizar combate
   updateCombat(combat: Combat): Observable<Combat> {
-    // Asegurarse de que tenemos un ID válido
     if (!combat._id) {
-      return throwError(() => new Error('No se puede actualizar, falta el ID'));
+      // Considera devolver un error más específico o manejarlo de otra forma si es apropiado para tu UI
+      return throwError(() => new Error('No se puede actualizar, falta el ID del combate'));
     }
-
     const updateData = {
       gym: combat.gym,
       date: combat.date instanceof Date ? combat.date : new Date(combat.date),
       boxers: this.processBoxers(combat.boxers)
     };
-
+    // La petición irá a: http://ea3-api.upc.edu/api/combat/<combat._id>
     return this.http.put<Combat>(`${this.apiUrl}/combat/${combat._id}`, updateData)
       .pipe(catchError(this.handleError));
   }
 
   // Eliminar combate
   deleteCombat(_id: string): Observable<void> {
+    // La petición irá a: http://ea3-api.upc.edu/api/combat/<_id>
     return this.http.delete<void>(`${this.apiUrl}/combat/${_id}`)
       .pipe(catchError(this.handleError));
   }
 
   // Obtener boxeadores por ID de combate
   getBoxersByCombatId(_id: string): Observable<string[]> {
+    // La petición irá a: http://ea3-api.upc.edu/api/combat/<_id>/boxers
     return this.http.get<string[]>(`${this.apiUrl}/combat/${_id}/boxers`)
       .pipe(catchError(this.handleError));
   }
 
   // Ocultar combate
-  hideCombat(id: string, isHidden: boolean): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/combat/${id}/oculto`, { isHidden });
+  hideCombat(id: string, isHidden: boolean): Observable<any> { // Considera un tipo más específico que 'any'
+    // La petición irá a: http://ea3-api.upc.edu/api/combat/<id>/oculto
+    return this.http.put<any>(`${this.apiUrl}/combat/${id}/oculto`, { isHidden })
+      .pipe(catchError(this.handleError)); // Añadido pipe(catchError) por consistencia
   }
 
   // Procesar datos de boxeadores, asegurarse de que sea un array
   private processBoxers(boxers: any): string[] {
     if (typeof boxers === 'string') {
-      // Si es una cadena, dividir por comas
       return boxers.split(',')
         .map(id => id.trim())
-        .filter(id => id.length > 0); // Filtrar cadenas vacías
+        .filter(id => id.length > 0);
     } else if (Array.isArray(boxers)) {
-      // Si ya es un array, asegurarse de que cada elemento sea válido
       return boxers
-        .map(id => typeof id === 'string' ? id.trim() : String(id))
+        .map(id => typeof id === 'string' ? id.trim() : String(id).trim()) // Asegura que sea string y haz trim
         .filter(id => id.length > 0);
     }
-    // Si no es ni una cadena ni un array, devolver un array vacío
     return [];
   }
 
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {
-    console.error('Error de API:', error);
-
-    let errorMessage = 'Ocurrió un error desconocido';
+    console.error('Error de API en CombatService:', error); // Es bueno saber qué servicio falló
+    let errorMessage = 'Ocurrió un error desconocido en el servicio de combates.';
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
+      // Error del lado del cliente o de red.
       errorMessage = `Error del cliente: ${error.error.message}`;
     } else {
-      // Error del lado del servidor
-      errorMessage = `Error del servidor: Código de estado ${error.status}`;
-      if (error.error && error.error.message) {
-        errorMessage += `, Detalles: ${error.error.message}`;
+      // El backend devolvió un código de error.
+      // El cuerpo de la respuesta puede contener pistas sobre qué falló.
+      errorMessage = `Error del servidor: Código ${error.status}, Mensaje: ${error.message}`;
+      if (error.error && typeof error.error === 'object' && error.error.message) {
+        errorMessage += ` - Detalles: ${error.error.message}`;
+      } else if (typeof error.error === 'string' && error.error) {
+         errorMessage += ` - Detalles: ${error.error}`;
       }
     }
-
     return throwError(() => new Error(errorMessage));
   }
-
 }
