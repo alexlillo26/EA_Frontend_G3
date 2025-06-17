@@ -6,6 +6,12 @@ export interface User {
     isAdmin: boolean;
     isHidden: boolean;
     password: string;
+    weight: string;
+    city: string;
+    phone: string;
+    gender: string;
+    profilePicture?: string;
+    boxingVideo?: string;
   }
 
   export interface CreateUserDTO {
@@ -17,6 +23,8 @@ export interface User {
     isHidden: boolean;
     weight: string; // New field
     city: string;   // New field
+    phone: string;  // New field
+    gender: string; // New field
   }
   
 export class User implements User {

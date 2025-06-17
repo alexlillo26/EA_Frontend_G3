@@ -16,7 +16,7 @@ import { AfterViewInit } from '@angular/core';
   standalone: true
 })
 export class LoginComponent implements OnInit {
-  user: User = { _id: '', name: '', email: '', birthDate: new Date(), isAdmin: false, isHidden: false, password: '' };
+  user: User = { _id: '', name: '', email: '', birthDate: new Date(), isAdmin: false, isHidden: false, password: '', city: '', weight: '', phone: '', gender: '' };
   formularioLogin: FormGroup;
   authService = inject(AuthService);
   private router = inject(Router);

@@ -14,9 +14,9 @@ export class AuthService {
   
   // ANTES: private apiUrl = 'http://localhost:9000/api';
   // AHORA: URL base apuntando al proxy del backend.
-  private apiUrl = 'http://ea3-api.upc.edu/api'; 
+  private apiUrl = 'http://localhost:9000/api'; 
   // URL base específica para el flujo de Google OAuth para mayor claridad
-  private googleAuthBaseUrl = 'http://ea3-api.upc.edu/api/auth/google';
+  private googleAuthBaseUrl = 'http://localhost:9000/api/auth/google';
 
   constructor(private http: HttpClient, private router: Router) {}
 

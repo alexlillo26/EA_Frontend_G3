@@ -16,7 +16,7 @@ export class UserService {
   // private hideUrl = 'http://localhost:9000/api/users';
 
   // AHORA: URL base para los endpoints de usuarios, apuntando al proxy del backend.
-  private usersApiBaseUrl = 'http://ea3-api.upc.edu/api/users';
+  private usersApiBaseUrl = 'http://localhost:9000/api/users';
 
   constructor(private http: HttpClient) {}
 

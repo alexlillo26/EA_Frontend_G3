@@ -16,7 +16,7 @@ import { CreateUserDTO } from '../models/user.model';
 })
 export class UserComponent implements OnInit {
   users: User[] = [];
-  newUser: User & { city?: string; weight?: string } = { 
+  newUser: User & { city?: string; weight?: string; confirmPassword?: string } = { 
     _id: '', 
     name: '', 
     email: '', 
@@ -25,9 +25,12 @@ export class UserComponent implements OnInit {
     isHidden: false, 
     password: '', 
     city: '', 
-    weight: '' 
+    weight: '',
+    phone: '',
+    gender: '',
+    confirmPassword: '' 
   };
-  selectedUser: User | null = null;
+  selectedUser: (User & {confirmPassword?: string}) | null = null;
   page: number = 1;
   pageSize: number = 10;
   totalUsers: number = 0;
@@ -37,6 +40,10 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+  }
+
+  passwordsMatch(user: { password: string, confirmPassword?: string }): boolean {
+    return user.password === user.confirmPassword;
   }
 
   // Obtener todos los usuarios
@@ -99,6 +106,11 @@ export class UserComponent implements OnInit {
       }
       return;
     }
+    if (!this.passwordsMatch(this.newUser)) {
+      const dialog: HTMLDialogElement | null = document.querySelector('#PasswordInvalido');
+      if (dialog) dialog.showModal();
+      return;
+    }
       
 
     // Crear un objeto del tipo CreateUserDTO
@@ -110,7 +122,9 @@ export class UserComponent implements OnInit {
       isAdmin: this.newUser.isAdmin,
       isHidden: this.newUser.isHidden,
       weight: this.newUser['weight'], // Include weight
-      city: this.newUser['city']      // Include city
+      city: this.newUser['city'],     // Include city
+      phone: this.newUser['phone'],   // Include phone
+      gender: this.newUser['gender'] 
     };
 
     console.log('Datos enviados al backend:', userToCreate);
@@ -118,7 +132,7 @@ export class UserComponent implements OnInit {
     this.userService.createUser(userToCreate).subscribe(
       (data) => {
         this.users.push(data);
-        this.newUser = { _id: '', name: '', email: '', birthDate: undefined, isAdmin: false, isHidden: false, password: '' }; // Resetear el formulario
+        this.newUser = { _id: '', name: '', email: '', birthDate: undefined, isAdmin: false, isHidden: false, password: '', weight: '', city: '', phone:'', gender:'' }; // Resetear el formulario
         const dialog: HTMLDialogElement | null = document.querySelector('#UsuarioCreado');
         if (dialog) {
           dialog.showModal();
@@ -139,6 +153,13 @@ export class UserComponent implements OnInit {
 
   // Actualizar un usuario
   updateUser(): void {
+    if (this.selectedUser) {
+      if (!this.passwordsMatch(this.selectedUser)) {
+        const dialog: HTMLDialogElement | null = document.querySelector('#PasswordInvalido');
+        if (dialog) dialog.showModal();
+        return;
+      }
+    }
     if (this.selectedUser) {
       console.log("update user", this.selectedUser);
       this.userService.updateUser(this.selectedUser).subscribe(

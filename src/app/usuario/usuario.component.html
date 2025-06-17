@@ -24,10 +24,49 @@
         <input [(ngModel)]="selectedUser.isAdmin" name="isAdmin" id="isAdmin" type="checkbox" class="form-control" />
       </div>
       <div class="form-group">
+  <label for="weight">Peso</label>
+  <select [(ngModel)]="selectedUser.weight" name="weight" id="weight" class="form-control" required>
+    <option value="">Selecciona el peso</option>
+    <option value="Peso Pluma">Peso Pluma</option>
+    <option value="Peso Medio">Peso Medio</option>
+    <option value="Peso Pesado">Peso Pesado</option>
+  </select>
+</div>
+  <div class="form-group">
+    <label for="phone">Teléfono</label>
+    <input [(ngModel)]="selectedUser.phone" name="phone" id="phone" type="text" class="form-control"
+      placeholder="Teléfono" required />
+  </div>
+  <div class="form-group">
+    <label for="city">Ciudad</label>
+    <input [(ngModel)]="selectedUser.city" name="city" id="city" type="text" class="form-control"
+      placeholder="Ciudad" required />
+  </div>
+  <div class="form-group">
+    <label for="gender">Género</label>
+    <select [(ngModel)]="selectedUser.gender" name="gender" id="gender" class="form-control" required>
+      <option value="">Selecciona tu género</option>
+      <option value="Hombre">Hombre</option>
+      <option value="Mujer">Mujer</option>
+    </select>
+  </div>
+      <div class="form-group">
         <label for="password">Contraseña</label>
         <input [(ngModel)]="selectedUser.password" name="password" id="password" type="password" class="form-control"
           placeholder="Contraseña" required />
       </div>
+      <div class="form-group">
+  <label for="confirmPassword">Confirmar Contraseña</label>
+  <input
+    [(ngModel)]="selectedUser.confirmPassword"
+    name="confirmPassword"
+    id="confirmPassword"
+    type="password"
+    class="form-control"
+    placeholder="Confirma la contraseña"
+    required
+  />
+</div>
       <button type="submit" class="btn btn-primary">Actualizar</button>
       <button type="button" class="btn btn-secondary" (click)="selectedUser = null">Cancelar</button>
     </form>
@@ -60,10 +99,49 @@
             placeholder="Oculto" required />
         </div>
         <div class="form-group">
+         <label for="weight">Peso</label>
+          <select [(ngModel)]="newUser.weight" name="weight" id="weight" class="form-control" required>
+           <option value="">Selecciona el peso</option>
+           <option value="Peso Pluma">Peso Pluma</option>
+           <option value="Peso Medio">Peso Medio</option>
+           <option value="Peso Pesado">Peso Pesado</option>
+          </select>
+        </div>
+    <div class="form-group">
+      <label for="newPhone">Teléfono</label>
+      <input [(ngModel)]="newUser.phone" name="phone" id="newPhone" type="text" class="form-control"
+        placeholder="Teléfono" required />
+    </div>
+    <div class="form-group">
+      <label for="newCity">Ciudad</label>
+      <input [(ngModel)]="newUser.city" name="city" id="newCity" type="text" class="form-control"
+        placeholder="Ciudad" required />
+    </div>
+    <div class="form-group">
+      <label for="newGender">Género</label>
+      <select [(ngModel)]="newUser.gender" name="gender" id="newGender" class="form-control" required>
+        <option value="">Selecciona tu género</option>
+        <option value="Hombre">Hombre</option>
+        <option value="Mujer">Mujer</option>
+      </select>
+    </div>
+        <div class="form-group">
           <label for="newPassword">Contraseña</label>
           <input [(ngModel)]="newUser.password" name="password" id="newPassword" type="password" class="form-control"
             placeholder="Contraseña" required />
         </div>
+        <div class="form-group">
+  <label for="newConfirmPassword">Confirmar Contraseña</label>
+  <input
+    [(ngModel)]="newUser.confirmPassword"
+    name="confirmPassword"
+    id="newConfirmPassword"
+    type="password"
+    class="form-control"
+    placeholder="Confirma la contraseña"
+    required
+  />
+</div>
         <button type="submit" class="btn btn-success">Crear</button>
       </form>
     </ng-template>

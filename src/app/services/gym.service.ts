@@ -14,7 +14,7 @@ export class GymService {
   // AHORA: URL base para los endpoints de gimnasios, apuntando al proxy del backend.
   // Tu backend, según la configuración del proxy, está en http://ea3-api.upc.edu
   // y tus rutas de gimnasios están bajo /api/gym en ese backend.
-  private gymsApiBaseUrl = 'http://ea3-api.upc.edu/api/gym';
+  private gymsApiBaseUrl = 'http://localhost:9000/api/gym';
 
   constructor(private http: HttpClient) {}
 
