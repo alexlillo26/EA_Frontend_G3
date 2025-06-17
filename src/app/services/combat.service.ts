@@ -9,9 +9,10 @@ import { Combat } from '../models/combat.model'; // Asegúrate de que la ruta a 
   providedIn: 'root',
 })
 export class CombatService {
-  // ANTES: private apiUrl = 'http://localhost:9000/api';
   // AHORA: URL base apuntando al proxy del backend. Los paths como '/combat' se añadirán a esta.
-  private apiUrl = 'http://localhost:9000/api';
+
+  private apiUrl = 'https://ea3-api.upc.edu/api';
+
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +24,6 @@ export class CombatService {
       boxers: this.processBoxers(combat.boxers) // Asegurarse de que boxers sea un array
     };
     console.log('Datos enviados al servidor para crear combate:', combatData); // Log mantenido
-    // La petición irá a: http://ea3-api.upc.edu/api/combat
     return this.http.post<Combat>(`${this.apiUrl}/combat`, combatData)
       .pipe(catchError(this.handleError));
   }
@@ -34,14 +34,12 @@ export class CombatService {
     let params = new HttpParams();
     params = params.set('page', page.toString());
     params = params.set('pageSize', pageSize.toString());
-    // La petición irá a: http://ea3-api.upc.edu/api/combat?page=...&pageSize=...
     return this.http.get<any>(`${this.apiUrl}/combat`, { params }) // Pasar params como objeto
       .pipe(catchError(this.handleError));
   }
 
   // Obtener combate por ID
   getCombatById(_id: string): Observable<Combat> {
-    // La petición irá a: http://ea3-api.upc.edu/api/combat/<_id>
     return this.http.get<Combat>(`${this.apiUrl}/combat/${_id}`)
       .pipe(catchError(this.handleError));
   }
@@ -57,28 +55,24 @@ export class CombatService {
       date: combat.date instanceof Date ? combat.date : new Date(combat.date),
       boxers: this.processBoxers(combat.boxers)
     };
-    // La petición irá a: http://ea3-api.upc.edu/api/combat/<combat._id>
     return this.http.put<Combat>(`${this.apiUrl}/combat/${combat._id}`, updateData)
       .pipe(catchError(this.handleError));
   }
 
   // Eliminar combate
   deleteCombat(_id: string): Observable<void> {
-    // La petición irá a: http://ea3-api.upc.edu/api/combat/<_id>
     return this.http.delete<void>(`${this.apiUrl}/combat/${_id}`)
       .pipe(catchError(this.handleError));
   }
 
   // Obtener boxeadores por ID de combate
   getBoxersByCombatId(_id: string): Observable<string[]> {
-    // La petición irá a: http://ea3-api.upc.edu/api/combat/<_id>/boxers
     return this.http.get<string[]>(`${this.apiUrl}/combat/${_id}/boxers`)
       .pipe(catchError(this.handleError));
   }
 
   // Ocultar combate
   hideCombat(id: string, isHidden: boolean): Observable<any> { // Considera un tipo más específico que 'any'
-    // La petición irá a: http://ea3-api.upc.edu/api/combat/<id>/oculto
     return this.http.put<any>(`${this.apiUrl}/combat/${id}/oculto`, { isHidden })
       .pipe(catchError(this.handleError)); // Añadido pipe(catchError) por consistencia
   }

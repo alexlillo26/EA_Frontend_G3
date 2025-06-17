@@ -12,11 +12,13 @@ export class AuthService {
   // Inicializar el estado loggedIn basado en si ya existe un token
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken()); 
   
-  // ANTES: private apiUrl = 'http://localhost:9000/api';
-  // AHORA: URL base apuntando al proxy del backend.
-  private apiUrl = 'http://localhost:9000/api'; 
+
+
+  private apiUrl = 'https://ea3-api.upc.edu/api'; 
   // URL base específica para el flujo de Google OAuth para mayor claridad
-  private googleAuthBaseUrl = 'http://localhost:9000/api/auth/google';
+  private googleAuthBaseUrl = 'https://ea3-api.upc.edu/api/auth/google';
+  https: any;
+
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -51,7 +53,7 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }): Observable<User> { // Asumimos que la respuesta directa o una parte es User
-    // Petición a: http://ea3-api.upc.edu/api/users/login
+    // Petición a: https://ea3-api.upc.edu/api/users/login
     return this.http.post<any>(`${this.apiUrl}/users/login`, credentials).pipe( // Usamos <any> para manejar la estructura de respuesta flexible
       tap((response: any) => {
         console.log('Respuesta del backend en login:', response); 
@@ -102,6 +104,7 @@ export class AuthService {
         console.error('❌ Refresh token is missing.'); // Log missing refresh token
         return throwError(() => new Error('Refresh token is missing.'));
     }
+
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/refresh-token`, { refreshToken }).pipe(
         tap((response) => {
             console.log('✅ Refresh token response:', response); // Log the response
@@ -125,7 +128,7 @@ export class AuthService {
 
   // Este método podría ser redundante si tu backend maneja el registro/login con Google en un solo flujo desde /api/auth/google
   googleRegister(): Observable<any> {
-    // Petición a: http://ea3-api.upc.edu/api/auth/google
+    // Petición a: https://ea3-api.upc.edu/api/auth/google
     return this.http.get<any>(this.googleAuthBaseUrl).pipe(
       tap((response) => {
         console.log('Datos obtenidos de Google (en googleRegister):', response);
@@ -139,7 +142,6 @@ export class AuthService {
 
   completeGoogleRegister(password: string): Observable<any> {
     const code = new URLSearchParams(window.location.search).get('code');
-    // Petición a: http://ea3-api.upc.edu/api/auth/google/register
     return this.http.post<any>(`${this.googleAuthBaseUrl}/register`, { code, password }).pipe(
       tap((response: any) => {
         if (response && response.token) {

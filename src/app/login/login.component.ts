@@ -87,6 +87,6 @@ export class LoginComponent implements OnInit {
   }
 
   googleLogin(): void {
-    window.location.href = 'http://localhost:9000/api/auth/google?origin=frontend';
+    window.location.href = 'https://ea3-api.upc.edu/api/auth/google?origin=frontend';
   }
 }
