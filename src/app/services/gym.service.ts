@@ -11,6 +11,7 @@ export class GymService {
   
   private gymsApiBaseUrl = 'https://ea3-api.upc.edu/api/gym';
 
+
   constructor(private http: HttpClient) {}
 
   // Crear un nuevo gimnasio

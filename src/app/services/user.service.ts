@@ -12,7 +12,9 @@ export class UserService {
   
 
   // AHORA: URL base para los endpoints de usuarios, apuntando al proxy del backend.
+
   private usersApiBaseUrl = 'https://ea3-api.upc.edu/api/users';
+
 
   constructor(private http: HttpClient) {}
 

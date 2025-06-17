@@ -1,3 +1,4 @@
+
 # Dockerfile para EA_Frontend_G3 (Angular)
 
 # Etapa 1: Construir la aplicación Angular
@@ -54,3 +55,4 @@ EXPOSE 80
 
 # Comando para iniciar Nginx
 CMD ["nginx", "-g", "daemon off;"]
+

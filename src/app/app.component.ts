@@ -32,17 +32,15 @@ export class AppComponent {
     // Manejo de token y tipo de usuario después del inicio de sesión con Google OAuth
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
+    const refreshToken = urlParams.get('refreshToken'); // Capture refreshToken from URL
     const userType = urlParams.get('type'); // 'user' o 'gym'
 
-    if (token) {
-        this.authService.setTokens(token, ''); // Guarda el token
-        this.authService.updateLoggedInState(true); // Actualiza el estado de inicio de sesión
-        console.log(`Logged in as ${userType}`); // Depuración del tipo de usuario
-
-        // Redirige a /users independientemente del tipo de usuario
-        this.router.navigate(['/users']); // Redirigir a la gestión de usuarios
-
-        window.history.replaceState({}, document.title, '/'); // Limpia la URL
+    if (token && refreshToken) {
+        this.authService.setTokens(token, refreshToken); // Store both tokens
+        this.authService.updateLoggedInState(true); // Update login state
+        console.log(`✅ Tokens guardados desde URL. Tipo de usuario: ${userType}`); // Log success
+        this.router.navigate(['/users']); // Redirect to users
+        window.history.replaceState({}, document.title, '/'); // Clean URL
     }
   }
 

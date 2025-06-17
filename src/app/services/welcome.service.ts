@@ -15,7 +15,9 @@ export class WelcomeService {
   // AHORA: Usamos la URL del proxy del backend.
   // Tu backend, según la configuración del proxy, está en ea3-api.upc.edu
   // y tus rutas de usuario están bajo /api/users en ese backend.
+
   private apiUrl = 'https://ea3-api.upc.edu/api/users';
+
 
   constructor(private http: HttpClient) {}
 

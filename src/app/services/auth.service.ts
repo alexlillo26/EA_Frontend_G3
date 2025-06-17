@@ -13,10 +13,12 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken()); 
   
 
+
   private apiUrl = 'https://ea3-api.upc.edu/api'; 
   // URL base específica para el flujo de Google OAuth para mayor claridad
   private googleAuthBaseUrl = 'https://ea3-api.upc.edu/api/auth/google';
   https: any;
+
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -99,19 +101,19 @@ export class AuthService {
   refreshAccessToken(): Observable<string> {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
-      this.logout(); // Si no hay refresh token, desloguear.
-      return throwError(() => new Error('Sesión expirada. Por favor, inicie sesión de nuevo.'));
+        console.error('❌ Refresh token is missing.'); // Log missing refresh token
+        return throwError(() => new Error('Refresh token is missing.'));
     }
-    // Petición a: https://ea3-api.upc.edu/api/auth/refresh-token
+
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/refresh-token`, { refreshToken }).pipe(
         tap((response) => {
-            this.setTokens(response.token, refreshToken); // Guardar el nuevo token de acceso, mantener el refresh token (o actualizar si el backend envía uno nuevo)
+            console.log('✅ Refresh token response:', response); // Log the response
+            this.setTokens(response.token, refreshToken); // Update token, keep refreshToken
         }),
         map((response) => response.token),
-        catchError((error: HttpErrorResponse) => {
-            console.error('Error al refrescar el token:', error);
-            this.logout(); // Desloguear al usuario si falla la actualización del token
-            return throwError(() => new Error('Su sesión ha expirado. Por favor, inicie sesión de nuevo.'));
+        catchError((error) => {
+            console.error('❌ Error refreshing token:', error); // Log refresh error
+            return throwError(() => error);
         })
     );
   }

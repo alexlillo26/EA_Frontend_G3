@@ -10,7 +10,9 @@ import { Combat } from '../models/combat.model'; // Asegúrate de que la ruta a 
 })
 export class CombatService {
   // AHORA: URL base apuntando al proxy del backend. Los paths como '/combat' se añadirán a esta.
+
   private apiUrl = 'https://ea3-api.upc.edu/api';
+
 
   constructor(private http: HttpClient) { }
 

@@ -20,7 +20,11 @@ export class WelcomeComponent implements OnInit {
     birthDate: undefined,
     password: '',
     isAdmin: false,
-    isHidden: false
+    isHidden: false,
+    weight: '',
+    city: '',
+    phone: '',
+    gender: ''
   };
 
 

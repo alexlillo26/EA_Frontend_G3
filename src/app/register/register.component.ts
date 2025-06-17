@@ -39,7 +39,9 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
       weight: ['', Validators.required], // New field
-      city: ['', Validators.required]    // New field
+      city: ['', Validators.required],    // New field
+      phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]], 
+      gender: ['', Validators.required] // New field
     }, { validator: this.passwordMatchValidator });
 
     this.googlePasswordForm = this.form.group({
